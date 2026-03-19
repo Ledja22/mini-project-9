@@ -47,12 +47,12 @@ The transformer model outperforms the baseline across all metrics, particularly 
 
 | Metric       | Model          | Hate Speech | Offensive | Neither | Macro Avg | Weighted Avg |
 |--------------|----------------|-------------|-----------|---------|-----------|--------------|
-| **Precision**| TF-IDF + LR   | 0.50       | 0.92     | 0.90   | 0.77     | 0.90        |
-|              | DistilBERT    | 0.65       | 0.95     | 0.92   | 0.84     | 0.93        |
-| **Recall**   | TF-IDF + LR   | 0.45       | 0.91     | 0.91   | 0.76     | 0.89        |
-|              | DistilBERT    | 0.60       | 0.94     | 0.93   | 0.82     | 0.92        |
-| **F1-Score** | TF-IDF + LR   | 0.47       | 0.91     | 0.90   | 0.76     | 0.89        |
-|              | DistilBERT    | 0.62       | 0.94     | 0.92   | 0.83     | 0.92        |
+| **Precision**| TF-IDF + LR   | 0.36       | 0.96     | 0.76   | 0.70     | 0.90        |
+|              | DistilBERT    | 0.40       | 0.97     | 0.84   | 0.74     | 0.91        |
+| **Recall**   | TF-IDF + LR   | 0.55       | 0.88     | 0.94   | 0.79     | 0.87        |
+|              | DistilBERT    | 0.60       | 0.90     | 0.95   | 0.82     | 0.89        |
+| **F1-Score** | TF-IDF + LR   | 0.44       | 0.92     | 0.84   | 0.73     | 0.88        |
+|              | DistilBERT    | 0.48       | 0.93     | 0.89   | 0.77     | 0.90        |
 
 
 ## Detailed Analysis
