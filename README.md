@@ -54,13 +54,21 @@ The transformer model outperforms the baseline across all metrics, particularly 
 | **F1-Score** | TF-IDF + LR   | 0.47       | 0.91     | 0.90   | 0.76     | 0.89        |
 |              | DistilBERT    | 0.62       | 0.94     | 0.92   | 0.83     | 0.92        |
 
-*Note: Metrics are approximate based on test set evaluation. DistilBERT shows superior handling of contextual nuances.*
 
 ## Detailed Analysis
 
 The evaluation metrics reveal DistilBERT's strengths in handling imbalanced classes, with improved precision and recall for Hate Speech detection compared to the TF-IDF baseline. Confusion matrices highlight the baseline's tendency to misclassify Hate Speech as Offensive, while DistilBERT reduces false negatives for harmful content. Confidence analysis plots accuracy against coverage at varying thresholds, demonstrating a trade-off where higher thresholds yield purer predictions but cover fewer samples, informing production deployment decisions.
 
-Error analysis categorizes over 10 misclassified examples into patterns such as sarcasm/irony, context-dependency, and slang usage, underscoring transformers' limitations with nuanced language. The production workflow design incorporates three zones—auto-remove, human review, and auto-approve—based on confidence scores, with asymmetric thresholds prioritizing safety for hate speech. Scalability estimates for 100K daily posts indicate efficient human moderation needs, while recommendations for v2 include multilingual support and active learning to address evolving slang and annotation noise.
+## Model comparisons 
+![alt text](data/content/model_comparison.png)
+
+Error analysis categorizes over 10 misclassified examples into patterns such as sarcasm/irony, context-dependency, and slang usage, underscoring transformers' limitations with nuanced language. The production workflow design incorporates three zones—auto-remove, human review, and auto-approve—based on confidence scores, with asymmetric thresholds prioritizing safety for hate speech. Scalability estimates for 100K daily posts indicate efficient human moderation needs, while recommendations for v2 include multilingual support and active learning to address evolving slang and annotation noise. More analysis can be found on the D2L report. 
+
+## Workflow diagram 
+![alt text](data/content/workflow_diagram.png)
+
+## Cost Tradeoff 
+![alt text](data/content/cost_tradeoff.png)
 
 ## Team Member Contributions
 
