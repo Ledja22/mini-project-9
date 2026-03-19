@@ -1,23 +1,25 @@
-# mini-project-9
-
 # Mini Project IX: Content Moderation with Transformers
+
+## Overview
+
+This project develops an automated content moderation system for social media platforms, utilizing machine learning to classify text into three categories: Hate Speech, Offensive Language, and Neither. By comparing a traditional TF-IDF + Logistic Regression baseline against a fine-tuned DistilBERT transformer model, the project evaluates performance, analyzes errors, and designs a production-ready moderation workflow. The system addresses the critical need for scalable, accurate moderation to reduce human workload and mitigate harmful content dissemination.
 
 ## Problem Description and Motivation
 
-Content moderation is a critical challenge in today's digital landscape, where social media platforms and online communities must balance free expression with the prevention of harmful content. This project focuses on automating content moderation using machine learning, specifically targeting the detection of hate speech and offensive language in text data. By leveraging advanced transformer models, we aim to develop a robust system that can classify tweets into categories: Hate Speech, Offensive, or Neither. This work is motivated by the need for scalable, accurate, and efficient moderation tools to foster safer online environments, reducing the burden on human moderators and enabling real-time intervention.
+Content moderation is essential for maintaining safe online environments, yet manual processes are inefficient and psychologically taxing. Platforms face regulatory pressures to remove hate speech while avoiding over-censorship of legitimate expression. This project automates moderation using NLP, focusing on distinguishing hate speech from offensive language—a nuanced task with legal implications. Motivation stems from the volume of user-generated content and the need for AI-driven solutions to enhance safety without compromising free speech.
 
 ## Dataset Description
 
-The dataset used is the "Hate Speech and Offensive Language" dataset, sourced from a public GitHub repository. It contains labeled tweets categorized into three classes: Hate Speech (0), Offensive (1), and Neither (2). The dataset consists of approximately 24,000 samples, with an imbalanced distribution where "Offensive" is the majority class. The data includes raw tweet text, which has been preprocessed in this project to remove URLs, normalize mentions, and strip non-ASCII characters.
+The dataset is the "Hate Speech and Offensive Language" collection from Davidson et al. (2017), comprising approximately 24,782 labeled tweets. It includes three classes: Hate Speech (0), Offensive Language (1), and Neither (2), with a significant imbalance (5% hate speech, 77% offensive, 18% neither). Tweets contain slang, URLs, mentions, and hashtags, reflecting real-world social media noise.
 
-Source: [Hate Speech and Offensive Language Dataset](https://github.com/t-davidson/hate-speech-and-offensive-language)
+**Source**: [Hate Speech and Offensive Language Dataset](https://github.com/t-davidson/hate-speech-and-offensive-language) (GitHub repository).
 
 ## Setup Instructions and How to Run
 
 ### Prerequisites
 - Python 3.8 or higher
 - Jupyter Notebook or JupyterLab
-- Git (for cloning the repository)
+- Git for repository cloning
 
 ### Installation
 1. Clone the repository:
@@ -31,30 +33,37 @@ Source: [Hate Speech and Offensive Language Dataset](https://github.com/t-davids
    pip install -r requirements.txt
    ```
 
-### Running the Project
-The project is organized into three Jupyter notebooks, to be run in sequence:
+### Execution
+Run the notebooks sequentially in a Jupyter environment:
+1. `notebooks/01_exploration.ipynb`: Data loading, preprocessing, and splitting.
+2. `notebooks/02_baseline.ipynb`: Baseline model training and evaluation.
+3. `notebooks/03_transformer.ipynb`: Transformer fine-tuning, comparison, and workflow design.
 
-1. **01_exploration.ipynb**: Data loading, exploration, preprocessing, and train/val/test splitting. Saves processed data to `data/npy_files/`.
-2. **02_baseline.ipynb**: Trains and evaluates a TF-IDF + Logistic Regression baseline model. Saves metrics and plots to `data/content/`.
-3. **03_transformer.ipynb**: Fine-tunes DistilBERT, evaluates performance, and performs error analysis. Saves metrics, plots, and model weights.
-
-Run the notebooks in order using Jupyter Notebook:
-```
-jupyter notebook notebooks/01_exploration.ipynb
-```
-Then proceed to the next notebooks. Ensure the `data/` directory structure exists (create `data/content/` and `data/npy_files/` if needed).
+Ensure the `data/` directory exists for outputs. The project is designed for Google Colab compatibility.
 
 ## Results Summary: Baseline vs Transformer Comparison
 
-| Metric          | Model              | Hate Speech | Offensive | Neither | Macro Avg | Weighted Avg |
-|-----------------|--------------------|-------------|-----------|---------|-----------|--------------|
-| Precision      | TF-IDF + LR       | 0.50        | 0.92      | 0.90    | 0.77      | 0.90         |
-|                 | DistilBERT        | 0.65        | 0.95      | 0.92    | 0.84      | 0.93         |
-| Recall         | TF-IDF + LR       | 0.45        | 0.91      | 0.91    | 0.76      | 0.89         |
-|                 | DistilBERT        | 0.60        | 0.94      | 0.93    | 0.82      | 0.92         |
-| F1-Score       | TF-IDF + LR       | 0.47        | 0.91      | 0.90    | 0.76      | 0.89         |
-|                 | DistilBERT        | 0.62        | 0.94      | 0.92    | 0.83      | 0.92         |
+The transformer model outperforms the baseline across all metrics, particularly for the minority Hate Speech class.
 
-The transformer model (DistilBERT) outperforms the baseline in all metrics, particularly for the minority "Hate Speech" class, demonstrating the value of contextual embeddings for nuanced text classification.
+| Metric       | Model          | Hate Speech | Offensive | Neither | Macro Avg | Weighted Avg |
+|--------------|----------------|-------------|-----------|---------|-----------|--------------|
+| **Precision**| TF-IDF + LR   | 0.50       | 0.92     | 0.90   | 0.77     | 0.90        |
+|              | DistilBERT    | 0.65       | 0.95     | 0.92   | 0.84     | 0.93        |
+| **Recall**   | TF-IDF + LR   | 0.45       | 0.91     | 0.91   | 0.76     | 0.89        |
+|              | DistilBERT    | 0.60       | 0.94     | 0.93   | 0.82     | 0.92        |
+| **F1-Score** | TF-IDF + LR   | 0.47       | 0.91     | 0.90   | 0.76     | 0.89        |
+|              | DistilBERT    | 0.62       | 0.94     | 0.92   | 0.83     | 0.92        |
+
+*Note: Metrics are approximate based on test set evaluation. DistilBERT shows superior handling of contextual nuances.*
+
+## Detailed Analysis
+
+The evaluation metrics reveal DistilBERT's strengths in handling imbalanced classes, with improved precision and recall for Hate Speech detection compared to the TF-IDF baseline. Confusion matrices highlight the baseline's tendency to misclassify Hate Speech as Offensive, while DistilBERT reduces false negatives for harmful content. Confidence analysis plots accuracy against coverage at varying thresholds, demonstrating a trade-off where higher thresholds yield purer predictions but cover fewer samples, informing production deployment decisions.
+
+Error analysis categorizes over 10 misclassified examples into patterns such as sarcasm/irony, context-dependency, and slang usage, underscoring transformers' limitations with nuanced language. The production workflow design incorporates three zones—auto-remove, human review, and auto-approve—based on confidence scores, with asymmetric thresholds prioritizing safety for hate speech. Scalability estimates for 100K daily posts indicate efficient human moderation needs, while recommendations for v2 include multilingual support and active learning to address evolving slang and annotation noise.
 
 ## Team Member Contributions
+
+- **Ledja Halltari**: Data preprocessing, model development, evaluation, error analysis, workflow design, and documentation.
+
+- **Yansong Jia and Ledja Halltari**: D2L report, analysis 
